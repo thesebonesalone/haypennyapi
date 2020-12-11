@@ -1,7 +1,12 @@
 class TopicController < ApplicationController
+    def index
+        topics = Topic.all()
+        render :json => {message: "Success", topics: topics}
+    end
+
     def show
-            topic = Topic.find_by(title: params[:title])
-        
+        # byebug
+            topic = Topic.find_by(title: params[:id])
         if topic
             data = {message: "Success", :topic => {title: topic.title, opinions: topic.opinions}}
         else

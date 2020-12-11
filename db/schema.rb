@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 2020_12_09_153212) do
   end
 
   create_table "reactions", force: :cascade do |t|
-    t.string "type"
+    t.string "kind"
     t.integer "user_id"
     t.integer "opinion_id"
     t.datetime "created_at", precision: 6, null: false

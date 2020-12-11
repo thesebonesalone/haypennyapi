@@ -5,3 +5,14 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+require 'faker'
+require 'pry'
+
+200.times do
+    name = Faker::Music.genre
+    topic = Topic.new()
+    # binding.pry
+    topic.title = name
+    topic.save()
+end
