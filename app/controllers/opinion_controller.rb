@@ -1,7 +1,6 @@
 class OpinionController < ApplicationController
-    def index
-        opinions = Opinion.all()
-        opinions = opinions.sort_by{|opinion| opinion.created_at}.reverse()
+    def getnew
+        opinions = Opinion.order(created_at: :desc).page(params[:page])
         # byebug
         opinions = opinions.map{|opinion| {
             reactions: opinion.reactions.map{|reaction| reaction.kind},
@@ -11,6 +10,7 @@ class OpinionController < ApplicationController
             created_at:opinion.created_at}}
         render :json => {message: "Success", opinions: opinions}
     end
+
 
     def show
         opinion = Opinion.find_by(id: params[:id])

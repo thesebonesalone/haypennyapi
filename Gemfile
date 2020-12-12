@@ -17,6 +17,10 @@ gem 'puma', '~> 4.1'
 gem 'bcrypt', '~> 3.1.7'
 gem 'faker'
 gem 'pry'
+gem 'jwt'
+# gem 'will-paginate'
+
+gem 'kaminari'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
