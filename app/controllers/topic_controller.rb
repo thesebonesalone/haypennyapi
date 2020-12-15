@@ -36,7 +36,7 @@ class TopicController < ApplicationController
                     id: opinion.id
                 }
             }
-            data = {message: "Success", :topic => {title: topic.title, opinions: opinions}}
+            data = {message: "Success", :topic => {title: topic.title, id: topic.id, opinions: opinions}}
         else
             data = {message: "Could not access topic"}
         end
