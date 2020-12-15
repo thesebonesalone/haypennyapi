@@ -14,7 +14,7 @@ class OpinionController < ApplicationController
 
     def getpopular
         opinions = Opinion.where({created_at: (Time.now - 2.day)..Time.now }).order(positivity: :desc).page(params[:page])
-        last = Opinion.order(positivity: :desc).page(params[:page])
+        last = Opinion.where({created_at: (Time.now - 2.day)..Time.now }).order(positivity: :desc).page(params[:page]).last_page?
         opinions = opinions.map{|opinion| {
             reactions: opinion.reactions.map{|reaction| reaction.kind},
             content: opinion.content, user:opinion.user.name,
@@ -26,7 +26,7 @@ class OpinionController < ApplicationController
 
     def getweird
         opinions = Opinion.where({created_at: (Time.now - 2.day)..Time.now }).order(weird: :desc).page(params[:page])
-        last = Opinion.order(positivity: :desc).page(params[:page])
+        last = Opinion.where({created_at: (Time.now - 2.day)..Time.now }).order(weird: :desc).page(params[:page]).last_page?
         opinions = opinions.map{|opinion| {
             reactions: opinion.reactions.map{|reaction| reaction.kind},
             content: opinion.content, user:opinion.user.name,
@@ -66,6 +66,8 @@ class OpinionController < ApplicationController
 
     def create
         opinion = Opinion.new(opinion_params)
+        opinion.positivity = 0
+        opinion.weird = 0
         # byebug
         if opinion.save
             data = {message: "Success", opinion: opinion}
