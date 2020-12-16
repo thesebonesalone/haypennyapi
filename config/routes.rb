@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get '/topic/feed/popular/:page', to: 'topic#getpopular'
   get '/topic/query/liketopics/:input', to: 'topic#liketopics'
   get '/opinion/view/:user_id/:topic_id', to: 'opinion#userhasopinion'
+  get '/user/:id/wordcloud/:resolution', to: 'user#wordcloud'
   get '/topic/:title', to: 'topic#show'
   post '/auth', to: 'auth#create'
   get '/current_user', to: 'auth#show'

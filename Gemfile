@@ -18,6 +18,7 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'faker'
 gem 'pry'
 gem 'jwt'
+gem 'victor'
 # gem 'will-paginate'
 
 gem 'kaminari'

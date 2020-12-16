@@ -1,3 +1,5 @@
+require 'victor'
+
 class UserController < ApplicationController
     def create
         user = User.new(user_params)
@@ -44,6 +46,28 @@ class UserController < ApplicationController
     end
 
     def delete
+    end
+
+    def wordcloud
+        user = User.find_by(name: params[:id])
+        opinions = user.opinions
+        tally = {}
+        opinions.each do |opinion|
+            opinion.content.split(' ').each do |word|
+                word = word.downcase.split('').filter{|letter| "abcdefghijklmnopqrstuvwxyz".include? letter}.join('')
+                if !["the","if","is","a","of","as","in","it","i","im","you","my","its","but"].include?(word)
+                    tally["#{word}"] ||= 0
+                    tally["#{word}"] += 1
+                end
+            end
+        end
+        tally = tally.sort_by{|word, value| value}.reverse.map{|word|word}
+        new_tally = []
+        tally.each_with_index do |word,index|
+            new_tally[index] = {text: word[0], value: word[1]}
+        end
+
+        render :json => new_tally
     end
 
     private
