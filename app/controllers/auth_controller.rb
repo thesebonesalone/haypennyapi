@@ -7,9 +7,9 @@ class AuthController < ApplicationController
 
             token = JWT.encode(payload, 'gitting_jiggy', 'HS256')
 
-            render json: { user: {id: user.id, name: user.name, }, token: token }
+            render json: {message: "Success", user: {id: user.id, name: user.name, }, token: token }
         else
-            render json: { error: 'Invalid username/password.' }, status: 401
+            render json: {message: "Failure", error: 'Invalid username/password.' }, status: 401
         end
     end
 
