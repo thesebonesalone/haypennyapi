@@ -39,7 +39,7 @@ class OpinionController < ApplicationController
 
 
     def userhasopinion
-        opinion = Opinion.find_by(user_id: params[:user_id], topic_id: params[:topic_id])
+        opinion = Opinion.where(user_id: params[:user_id], topic_id: params[:topic_id]).last
         if opinion
             opinion = {
                 reactions: opinion.reactions.map{|reaction| reaction.kind},

@@ -15,8 +15,11 @@ class UserController < ApplicationController
     def show
         user = User.find_by(name: params[:id])
         if user
-
+            popularity = 0
+            weird = 0
             opinions = user.opinions.map{|opinion|
+                    popularity += opinion.positivity
+                    weird += opinion.weird
                     {reactions: opinion.reactions.map{|reaction| reaction.kind},
                     user: opinion.user.name,
                     topic: opinion.topic.title,
@@ -26,13 +29,55 @@ class UserController < ApplicationController
                     positivity: opinion.positivity,
                     weird: opinion.weird}
             }
-            data = {message: "Success", :user => {name: user[:name], email: user[:email], id: user.id, profile_picture: user.profile_picture, opinions: opinions}}
+    
+            data = {message: "Success",:popularity => popularity, :weird => weird, :user => {name: user[:name], email: user[:email], id: user.id, profile_picture: user.profile_picture, opinions: opinions}}
             
             render :json => data
         else
             data = {message: "Could not access user"}
             render :json => data
         end
+    end
+
+
+    def useropinionsnew
+        user_id = User.find_by(name: params[:id]).id
+        opinions = Opinion.where({user_id: user_id}).order(created_at: :desc).page(params[:page])
+        last = Opinion.where({user_id: user_id}).order(created_at: :desc).page(params[:page]).last_page?
+        opinions = opinions.map{|opinion| {
+            reactions: opinion.reactions.map{|reaction| reaction.kind},
+            content: opinion.content, user: opinion.user.name,
+            topic: opinion.topic.title,
+            id: opinion.id,
+            created_at: opinion.created_at}}
+        render :json => {message: "Success", opinions: opinions, last: last}
+    end
+
+    def useropinionspopular
+        user_id = User.find_by(name: params[:id]).id
+        opinions = Opinion.where({user_id: user_id}).order(positivity: :desc).page(params[:page])
+        last = Opinion.where({user_id: user_id}).order(positivity: :desc).page(params[:page]).last_page?
+        opinions = opinions.map{|opinion| {
+            reactions: opinion.reactions.map{|reaction| reaction.kind},
+            content: opinion.content, user: opinion.user.name,
+            topic: opinion.topic.title,
+            id: opinion.id,
+            created_at: opinion.created_at}}
+        render :json => {message: "Success", opinions: opinions, last: last}
+    end
+
+    def useropinionsweird
+        user_id = User.find_by(name: params[:id]).id
+        opinions = Opinion.where({user_id: user_id}).order(weird: :desc).page(params[:page])
+        last = Opinion.where({user_id: user_id}).order(weird: :desc).page(params[:page]).last_page?
+        opinions = opinions.map{|opinion| {
+            reactions: opinion.reactions.map{|reaction| reaction.kind},
+            content: opinion.content, user: opinion.user.name,
+            topic: opinion.topic.title,
+            id: opinion.id,
+            created_at: opinion.created_at}}
+        render :json => {message: "Success", opinions: opinions, last: last}
+
     end
 
     def update
