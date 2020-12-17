@@ -39,6 +39,8 @@ class TopicController < ApplicationController
         tally.each_with_index do |word,index|
             new_tally[index] = {text: word[0], value: word[1]}
         end
+        new_tally = new_tally.slice(0, params[:resolution].to_i)
+
 
         render :json => new_tally
     end
