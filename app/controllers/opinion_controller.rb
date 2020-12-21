@@ -1,4 +1,30 @@
 class OpinionController < ApplicationController
+    def viewopinion
+        opinion = Opinion.find(params[:id])
+        comments = opinion.comments
+        recomments = comments.map{|comment|
+    {
+        content: comment.content,
+        user: comment.user.name,
+        created_at: comment.created_at
+    }}
+        deets = {
+            reactions: opinion.reactions.map{|reaction| reaction.kind},
+            content: opinion.content, user:opinion.user.name,
+            topic:opinion.topic.title,
+            id:opinion.id,
+            created_at:opinion.created_at
+        }
+        old_opinions = Opinion.where("user_id = ? and topic_id = ?", opinion.user.id, opinion.topic.id).order(created_at: :desc).map{|opinion|
+        {reactions: opinion.reactions.map{|reaction| reaction.kind},
+        content: opinion.content, user:opinion.user.name,
+        topic:opinion.topic.title,
+        id:opinion.id,
+        created_at:opinion.created_at}
+    }
+        render :json => {message: "Success", opinion: deets, comments: recomments, title: opinion.topic.title, username: opinion.user.name, oldOpinions: old_opinions}
+    end
+
     def getnew
         opinions = Opinion.order(created_at: :desc).page(params[:page])
         last = Opinion.order(created_at: :desc).page(params[:page]).last_page?

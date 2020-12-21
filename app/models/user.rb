@@ -1,5 +1,7 @@
 class User < ApplicationRecord
     has_secure_password
+    has_many :comments
+    has_many :comment_votes
     has_many :opinions
     has_many :reactions
     validates :email, uniqueness: true
