@@ -1,9 +1,15 @@
 class VoteController < ApplicationController
     def create
-        vote = Vote.find_or_create_by(user_id: params[:user_id],comment_id: params[:comment_id])
-        vote.value = 0
+        votes = Vote.where("user_id = ? and comment_id = ?", params[:user_id], params[:comment_id])
+        if votes.length > 0
+            vote = votes[0]
+            vote.destroy
+        end
+        vote = Vote.new()
+        vote.user_id = params[:user_id]
+        vote.comment_id = params[:comment_id]
+        vote.value = params[:value]
         if vote.save
-            vote.update(value: params[:value])
             data = {message: "Success", vote: vote}
         else
             data = {message: "Could not create vote"}

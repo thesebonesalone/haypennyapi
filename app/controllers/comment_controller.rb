@@ -67,4 +67,10 @@ class CommentController < ApplicationController
         end
         render :json => {message: "Success", comments: data}
     end
+    def destroy
+        comment = Comment.find(params[:id])
+        comment.destroy
+        render :json => {message: "Success"}
+    end
+
 end
