@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :reaction
   resources :opinion
   resources :comment
+  resources :vote
   get '/opinion/view/:id', to: 'opinion#viewopinion'
   get '/opinion/feed/new/:page', to: 'opinion#getnew'
   get '/opinion/feed/weird/:page', to: 'opinion#getweird'

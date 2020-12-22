@@ -5,7 +5,14 @@ class CommentController < ApplicationController
         comment.opinion = Opinion.find(params[:opinion_id])
         comment.content = params[:content]
         if comment.save
-            data = {message: "Success", comment: comment}
+            newComment = {
+                id: comment.id,
+                content: comment.content,
+                user: comment.user.name,
+                created_at: comment.created_at,
+                votes: comment.votes
+            }
+            data = {message: "Success", comment: newComment}
         else
             data = {message: "Could not create comment"}
         end
@@ -16,9 +23,11 @@ class CommentController < ApplicationController
         comments = Comment.where("user_id = ? ", params(:id))
         if comments
             data = comments.map{|comment| {
+                id: comment.id,
                 content: comment.content,
                 user: comment.user.name,
-                created_at: comment.created_at
+                created_at: comment.created_at,
+                votes: comment.votes
             }}
         else
             data = []
@@ -30,9 +39,11 @@ class CommentController < ApplicationController
         comments = Comment.where("opinion_id = ?", params[:id])
         if comments
             data = comments.map{|comment| {
+                id: comment.id,
                 content: comment.content,
                 user: comment.user.name,
-                created_at: comment.created_at
+                created_at: comment.created_at,
+                votes: comment.votes
             }}
         else
             data = []
@@ -45,9 +56,11 @@ class CommentController < ApplicationController
         comments = Comment.where("user_id = ? and opinion_id = ?", params[:user_id], params[:id])
         if comments.length > 0
             data = comments.map{|comment| {
+                id: comment.id,
                 content: comment.content,
                 user: comment.user.name,
-                created_at: comment.created_at
+                created_at: comment.created_at,
+                votes: comment.votes
             }}
         else
             data = []
