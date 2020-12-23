@@ -36,7 +36,8 @@ class CommentController < ApplicationController
     end
 
     def opinioncomments
-        comments = Comment.where("opinion_id = ?", params[:id])
+        comments = Comment.where("opinion_id = ?", params[:id]).page(params[:page])
+        last = Comment.where("opinion_id = ?", params[:id]).page(params[:page]).last_page?
         if comments
             data = comments.map{|comment| {
                 id: comment.id,
@@ -48,7 +49,7 @@ class CommentController < ApplicationController
         else
             data = []
         end
-        render :json => {message: "Success", comments: data}
+        render :json => {message: "Success", comments: data, last: last}
     
     end
 

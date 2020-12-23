@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   get '/topic/:id/opinions/popular/:page', to: 'topic#topicpopularopinions'
   get '/topic/:id/opinions/weird/:page', to: 'topic#topicweirdopinions'
   get '/comment/usercomments/:id', to: 'comment#usercomments'
-  get '/comment/opinioncomments/:id', to: 'comment#opinioncomments'
+  get '/comment/opinioncomments/:id/:page', to: 'comment#opinioncomments'
   get '/comment/useropinioncomments/:id/:user_id', to: 'comment#useropinioncomments'
   get '/topic/:title', to: 'topic#show'
   post '/auth', to: 'auth#create'
