@@ -21,6 +21,8 @@ gem 'jwt'
 gem 'victor'
 # gem 'will-paginate'
 
+gem 'whenever', require: false
+
 gem 'kaminari'
 
 # Use Active Storage variant

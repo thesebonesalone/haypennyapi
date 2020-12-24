@@ -5,6 +5,13 @@ class TopicController < ApplicationController
         render :json => {message: "Success", topics: topics, last: last}
     end
 
+    def getpopular
+        topics = Topic.order(score: :desc).page(params[:page])
+        last = Topic.order(score: :desc).page(params[:page])
+        render :json => {message: "Success", topics: topics, last: last}
+    end
+
+
     def liketopics
         topics = Topic.all.filter{|topic| topic.title.downcase.include?(params[:input].downcase)}
         render :json => {topics: topics.first(10)}
