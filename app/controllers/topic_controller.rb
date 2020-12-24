@@ -19,6 +19,7 @@ class TopicController < ApplicationController
 
     def create
         topic = Topic.new(topic_params)
+        topic.score = 0
         if topic.save
             data = {message: "Success", topic: topic}
         else
